@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zup.coronavac.api.dto.CidadaoRequest;
 import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 import com.zup.coronavac.domain.service.CadastroCidadaoService;
@@ -29,9 +30,15 @@ public class CidadaoController {
 	@Autowired
 	private CadastroCidadaoService cadastroCidadao;
 	
-	@GetMapping
+	@GetMapping("/listarCidadao")
 	public List<Cidadao> listar() {
 		return cidadaoRepository.findAll();
+	}
+	
+	@GetMapping("/obterCidadao")
+	public Cidadao listaCidadaoId() {
+		Cidadao cidadao = new Cidadao("Marcelo", "gomes,mr@gmail.com", "09124768855", "02/10/1971");
+		return cidadao;
 	}
 	
 	@GetMapping("/{cidadaoId}")

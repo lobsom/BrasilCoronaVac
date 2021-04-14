@@ -32,7 +32,24 @@ public class Cidadao {
 	@NotBlank(message = "Data inválida!")
 	private String dataNascimento;
 	
+	@Deprecated
+	public Cidadao() {
+		
+	}
 	
+	public Cidadao(@NotBlank(message = "Nome em branco") String nome,
+			@NotBlank(message = "CPF em branco") @CPF(message = "CPF inválido!") String cpf,
+			@NotBlank(message = "E-mail em branco") @Email(message = "E-mail inválido!") String email,
+			@NotBlank(message = "Data inválida!") String dataNascimento) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.dataNascimento = dataNascimento;
+	}
+
+
+
 	// Gttrs'n'Sttrs
 	public Long getId() {
 		return id;
