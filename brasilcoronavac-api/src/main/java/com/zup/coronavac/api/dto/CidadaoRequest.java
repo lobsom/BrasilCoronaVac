@@ -21,7 +21,7 @@ public class CidadaoRequest {
 	@NotBlank(message = "Data inválida!")
 	private String dataNascimento;
 	
-	public Cidadao criarCidadao() {
+	public Cidadao criarNovoCidadao() {
 		return new Cidadao(this.nome, this.cpf, this.email, this.dataNascimento);
 	}
 

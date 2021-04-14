@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.zup.coronavac.api.dto.CidadaoResponse;
+
 @Entity
 public class Cidadao {
 	
@@ -91,5 +93,8 @@ public class Cidadao {
 		this.dataNascimento = dataNascimento;
 	}
 	
+	public CidadaoResponse resposta() {
+		return new CidadaoResponse(this.id, this.nome, this.email);
+	}
 	
 }

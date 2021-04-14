@@ -16,6 +16,15 @@ public class CadastroCidadaoService {
 	@Autowired
 	private CidadaoRepository cidadaoRepository;
 
+	public List<Cidadao> buscaEmail(List<Cidadao> cidadao) throws Exception {
+		if (existeEmail(((Cidadao) cidadao).getEmail())) {
+		
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail não existe!");
+			
+		}
+		return (List<Cidadao>) cidadao;
+	}
+	
 	
 	public Cidadao salvar(Cidadao cidadao) throws Exception {
 		if (existeEmail(cidadao.getEmail())) {
