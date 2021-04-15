@@ -9,8 +9,7 @@ import com.zup.coronavac.domain.model.Cidadao;
 
 @Repository
 public interface CidadaoRepository extends JpaRepository <Cidadao, Long> {
-	List <Cidadao> findByEmail(String email);
+	List<Cidadao> findByNome(String nome);
+	List<Cidadao> findByEmail(String email);
 	List<Cidadao> findByCpf(String cpf);
-
-
 }

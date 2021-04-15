@@ -1,5 +1,6 @@
 package com.zup.coronavac.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 public class CidadaoController {
 	
 	@Autowired
-	private CadastroCidadaoService cadastroCidadao;
+	private CadastroCidadaoService cadastroCidadaoService;
 	
 	@Autowired
 	private CidadaoRepository cidadaoRepository;
@@ -61,15 +62,19 @@ public class CidadaoController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping("/buscaPorEmail/{parametro}")
-	public ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String parametro) throws Exception {
+	@GetMapping("/buscaPorEmail/{email}")
+	public ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) throws Exception {
 			
-			List<Cidadao> cidadao = cidadaoRepository.findByEmail(parametro);
-			List<Cidadao> cidadaoRetorno = cadastroCidadao.buscaEmail(cidadao);
+			List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaEmail(email);
 			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 		}
 	
-	
+	@GetMapping("/buscaPorCpf/{cpf}")
+	public ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) throws Exception {
+			
+			List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaCpf(cpf);
+			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
+		}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -77,7 +82,7 @@ public class CidadaoController {
 			throws Exception {
 		
 		Cidadao novoCidadao = cidadaoRequest.criarNovoCidadao();
-		cadastroCidadao.salvar(novoCidadao);
+		cadastroCidadaoService.salvar(novoCidadao);
 		
 		CidadaoResponse cidadaoRetorno = novoCidadao.resposta();
 		return ResponseEntity.status(HttpStatus.CREATED).body(cidadaoRetorno);
