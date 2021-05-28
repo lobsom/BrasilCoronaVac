@@ -1,6 +1,5 @@
 package com.zup.coronavac.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,9 +22,14 @@ import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 import com.zup.coronavac.domain.service.CadastroCidadaoService;
 
+/**
+ * Recebe as requisições HTTP e envia a resposta.
+ * @author Marcelo Gomes
+ *
+ */
 @RestController
 @RequestMapping("/cidadao")
-public class CidadaoController {
+ public class CidadaoController {
 	
 	@Autowired
 	private CadastroCidadaoService cadastroCidadaoService;
@@ -33,24 +37,30 @@ public class CidadaoController {
 	@Autowired
 	private CidadaoRepository cidadaoRepository;
 	
+	/**
+	 * Método construtor
+	 * @param cidadaoRepository - Interface de busca de variáveis de instância
+	 */
 	public CidadaoController(CidadaoRepository cidadaoRepository) {
 		this.cidadaoRepository = cidadaoRepository;
 	}
 	
-	
-	@GetMapping("/listarCidadao")
+	/**
+	 * Endpoint para listar os cidadãos solicitados no sistema
+	 * @return cidadaoRepository
+	 */
+	@GetMapping
 	public List<CidadaoResponse> listar() {
 		return cidadaoRepository.findAll().stream()
 			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail()))
 			    .collect(Collectors.toList());
 	}
 	
-	@GetMapping("/obterCidadao")
-	public CidadaoResponse listaCidadaoId() {
-		CidadaoResponse cidadaoTeste = new CidadaoResponse(10087L,"Marcelo teste", "gomes.mr@gmail.com");
-		return cidadaoTeste;
-	}
-	
+	/**
+	 * 
+	 * @param parametro
+	 * @return
+	 */
 	@GetMapping("/buscaPorId/{parametro}")
 	public ResponseEntity<Cidadao> buscaPorId(@PathVariable Long parametro) {
 		Optional<Cidadao> cidadao = cidadaoRepository.findById(parametro);
@@ -62,6 +72,12 @@ public class CidadaoController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/buscaPorEmail/{email}")
 	public ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) throws Exception {
 			
@@ -69,6 +85,12 @@ public class CidadaoController {
 			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 		}
 	
+	/**
+	 * 
+	 * @param cpf
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/buscaPorCpf/{cpf}")
 	public ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) throws Exception {
 			
@@ -76,6 +98,12 @@ public class CidadaoController {
 			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 		}
 	
+	/**
+	 * 
+	 * @param cidadaoRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<CidadaoResponse> criarCidadao(@Validated @RequestBody CidadaoRequest cidadaoRequest) 

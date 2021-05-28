@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"com.zup.coronavac.api.controller","l":"CidadaoController"}];updateSearchResults();

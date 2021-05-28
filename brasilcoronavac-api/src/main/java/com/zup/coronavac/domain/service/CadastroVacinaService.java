@@ -30,7 +30,7 @@ public class CadastroVacinaService {
 		return vacinaRepository.save(vacina);
 }
 	
-	public boolean existeEmail(String email) {
+	private boolean existeEmail(String email) {
 		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
 		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
 			return false;

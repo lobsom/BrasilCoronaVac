@@ -17,7 +17,13 @@ public class CadastroCidadaoService {
 	
 	@Autowired
 	private CidadaoRepository cidadaoRepository;
-
+/**
+ * Método para localizar um registro a partir do e-mail cadastrado
+ * 
+ * @param  email   Tipo String que será usado como argumento da busca
+ * @return List<Cidadao>: lista de objetos Cidadao 
+ * 
+ * **/
 	public List<Cidadao> buscaEmail(String email) throws Exception {
 		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
 		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
@@ -26,6 +32,12 @@ public class CadastroCidadaoService {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "E-mail não existe.");
 	}
 	
+	/**
+	 * 
+	 * @param cpf
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Cidadao> buscaCpf(String cpf) throws Exception {
 		List<Cidadao> verificaCpf =  cidadaoRepository.findByCpf(cpf);
 		if ((verificaCpf != null) && (!verificaCpf.isEmpty())) {
@@ -34,6 +46,12 @@ public class CadastroCidadaoService {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF não existe.");
 	}
 	
+	/**
+	 * 
+	 * @param cidadao
+	 * @return
+	 * @throws Exception
+	 */
 	public Cidadao salvar(Cidadao cidadao) throws Exception {
 		if (existeEmail(cidadao.getEmail())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já existe.");
@@ -43,7 +61,12 @@ public class CadastroCidadaoService {
 		return cidadaoRepository.save(cidadao);
 	}
 	
-	public boolean existeEmail(String email) {
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	private boolean existeEmail(String email) {
 		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
 		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
 			return true;
@@ -51,7 +74,12 @@ public class CadastroCidadaoService {
 		return false;
 	}
 
-	public boolean existeCPF(String cpf) {
+	/**
+	 * 
+	 * @param cpf
+	 * @return
+	 */
+	private boolean existeCPF(String cpf) {
 		List<Cidadao> verificaCpf = cidadaoRepository.findByCpf(cpf);
 		if ((verificaCpf != null) && (!verificaCpf.isEmpty())) {
 			return true;
