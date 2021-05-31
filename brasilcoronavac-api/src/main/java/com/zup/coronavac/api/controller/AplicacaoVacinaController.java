@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zup.coronavac.api.dto.CidadaoResponse;
+import com.zup.coronavac.api.dto.VacinaRequest;
+import com.zup.coronavac.api.dto.VacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
 import com.zup.coronavac.domain.repository.VacinaRepository;
 import com.zup.coronavac.domain.service.CadastroVacinaService;
@@ -22,18 +25,46 @@ import com.zup.coronavac.domain.service.CadastroVacinaService;
 @RestController
 @RequestMapping("/vacina")
 public class AplicacaoVacinaController {
+	private final VacinaRepository vacinaRepository;
+	private final CadastroVacinaService cadastroVacinaService; 
 	
+	/**
+	 * 
+	 * @param vacinaRepository
+	 * @param cadastroVacina
+	 */
 	@Autowired
-	private VacinaRepository vacinaRepository;
+	AplicacaoVacinaController(VacinaRepository vacinaRepository, CadastroVacinaService cadastroVacinaService){
+		this.vacinaRepository = vacinaRepository;
+		this.cadastroVacinaService = cadastroVacinaService;
+	}
 	
-	@Autowired
-	private CadastroVacinaService cadastroVacina; 
+	/**
+	 * 
+	 * @param vacina
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest) 
+			throws Exception {
+		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
+		cadastroVacinaService.salvar(novaVacina);
+		
+		VacinaResponse vacinaRetorno = novaVacina.resposta();
+		return ResponseEntity.status(HttpStatus.CREATED).body(vacinaRetorno);
+	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping
 	public List<AplicacaoVacina> listar() {
 		return vacinaRepository.findAll();
 	}
-	
+/**	
 	@GetMapping("/{vacinaId}")
 	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) {
 		Optional<AplicacaoVacina> vacina = vacinaRepository.findById(vacinaId);
@@ -44,11 +75,7 @@ public class AplicacaoVacinaController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	*/
 	
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public AplicacaoVacina adicionar(@Validated @RequestBody AplicacaoVacina vacina) throws Exception {
-		return cadastroVacina.salvar(vacina);
-	}
 	
 }

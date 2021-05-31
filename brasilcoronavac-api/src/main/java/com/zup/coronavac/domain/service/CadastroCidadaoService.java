@@ -14,15 +14,24 @@ import com.zup.coronavac.domain.repository.CidadaoRepository;
 
 @Service
 public class CadastroCidadaoService {
+	private final CidadaoRepository cidadaoRepository;
 	
+	/**
+	 * Injeção de dependência através do construtor da classe
+	 * @param cidadaoRepository
+	 */
 	@Autowired
-	private CidadaoRepository cidadaoRepository;
+	CadastroCidadaoService (CidadaoRepository cidadaoRepository){
+		super();
+		this.cidadaoRepository = cidadaoRepository;
+	};
+	
 /**
  * Método para localizar um registro a partir do e-mail cadastrado
  * 
  * @param  email   Tipo String que será usado como argumento da busca
  * @return List<Cidadao>: lista de objetos Cidadao 
- * 
+ * @throws Exception Se o 
  * **/
 	public List<Cidadao> buscaEmail(String email) throws Exception {
 		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
@@ -35,8 +44,8 @@ public class CadastroCidadaoService {
 	/**
 	 * 
 	 * @param cpf
-	 * @return
-	 * @throws Exception
+	 * @return List<Cidadao> Dados do cidadão
+	 * @throws Exception 404 se o recurso não foi localizado
 	 */
 	public List<Cidadao> buscaCpf(String cpf) throws Exception {
 		List<Cidadao> verificaCpf =  cidadaoRepository.findByCpf(cpf);
@@ -48,9 +57,9 @@ public class CadastroCidadaoService {
 	
 	/**
 	 * 
-	 * @param cidadao
-	 * @return
-	 * @throws Exception
+	 * @param cidadao Cria o recurso Cidadão no sistema 
+	 * @return Objeto Cidadao
+	 * @throws Exception Caso os métodos chamados retornem true, será lançada a exceção
 	 */
 	public Cidadao salvar(Cidadao cidadao) throws Exception {
 		if (existeEmail(cidadao.getEmail())) {

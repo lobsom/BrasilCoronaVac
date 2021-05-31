@@ -1,5 +1,7 @@
 package com.zup.coronavac.domain.model;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -45,17 +48,15 @@ public class Cidadao {
 	@Email(message = "E-mail inválido!")
 	private String email;
 	
-	@NotBlank(message = "Data inválida!")
-	private String dataNascimento;
+	//@NotNull(message = "Data inválida!")
+	private Date dataNascimento;
 
 	/**
 	 * Construtor não mais utilizado por conta de alguma coisa que ainda não sei... <br>
 	 * Perguntar ao Luís
 	 * */
 	@Deprecated 
-	public Cidadao() {
-		
-	}
+	public Cidadao() {}
 	
 	/**
 	 * 
@@ -67,7 +68,7 @@ public class Cidadao {
 	public Cidadao(@NotBlank(message = "Nome em branco") String nome,
 			@NotBlank(message = "CPF em branco") @CPF(message = "CPF inválido!") String cpf,
 			@NotBlank(message = "E-mail em branco") @Email(message = "E-mail inválido!") String email,
-			@NotBlank(message = "Data inválida!") String dataNascimento) {
+			@NotBlank(message = "Data inválida!") Date dataNascimento) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
@@ -144,17 +145,17 @@ public class Cidadao {
 
 	/**
 	 * 
-	 * @return String Data de nascimento do cidadão.
+	 * @return Date Data de nascimento do cidadão.
 	 */
-	public String getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
 	/**
 	 * 
-	 * @param dataNascimento String. Setter da data de nascimento do cidadão.
+	 * @param dataNascimento Date. Setter da data de nascimento do cidadão.
 	 */
-	public void setDataNascimento(String dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	

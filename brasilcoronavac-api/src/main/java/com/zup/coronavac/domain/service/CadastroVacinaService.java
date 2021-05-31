@@ -14,27 +14,43 @@ import com.zup.coronavac.domain.repository.VacinaRepository;
 
 @Service
 public class CadastroVacinaService {
+	private final VacinaRepository vacinaRepository;
+	private final CidadaoRepository cidadaoRepository;
 	
 	@Autowired
-	private VacinaRepository vacinaRepository;
+	/** Construtor da classe para a ID do Spring
+	 * @param vacinaRepository
+	 * @param cidadaoRepository
+	 */
+	private CadastroVacinaService(VacinaRepository vacinaRepository, CidadaoRepository cidadaoRepository) {
+		this.vacinaRepository = vacinaRepository;
+		this.cidadaoRepository = cidadaoRepository;
+	}
 	
-	@Autowired
-	private CidadaoRepository cidadaoRepository;
 	
-	
-	
+	/**
+	 * Aqui devemos verificar se o cidadão consta no banco
+	 * @param vacina
+	 * @return
+	 * @throws Exception
+	 */
 	public AplicacaoVacina salvar(AplicacaoVacina vacina)  throws Exception {
-		if (existeEmail(vacina.getEmail())) {
+		if (existeCidadao(vacina.getCidadao())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cidadão não cadastrado no sistema.");
 		}
 		return vacinaRepository.save(vacina);
 }
 	
-	private boolean existeEmail(String email) {
-		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
-		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
-			return false;
+	/**
+	 * Testa se existe cidadão na base para que o recurso da vacina possa ser criado
+	 * @param cidadao cidadão
+	 * @return true se o cidadão já existe no sistema
+	 */
+	private boolean existeCidadao(Cidadao cidadao) {
+		List<AplicacaoVacina> verificaCidadao =  vacinaRepository.findByCidadaoId(cidadao);
+		if ((verificaCidadao != null) && (!verificaCidadao.isEmpty())) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 }

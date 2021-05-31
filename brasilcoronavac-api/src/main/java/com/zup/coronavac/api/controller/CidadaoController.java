@@ -30,27 +30,44 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 @RestController
 @RequestMapping("/cidadao")
  public class CidadaoController {
-	
-	@Autowired
-	private CadastroCidadaoService cadastroCidadaoService;
-	
-	@Autowired
-	private CidadaoRepository cidadaoRepository;
+	private final CadastroCidadaoService cadastroCidadaoService;
+	private final CidadaoRepository cidadaoRepository;
 	
 	/**
-	 * Método construtor
-	 * @param cidadaoRepository - Interface de busca de variáveis de instância
+	 * Implementação de Injeção de dependência por Construtor
+	 * @param cadastroCidadaoService
+	 * @param cidadaoRepository
 	 */
-	public CidadaoController(CidadaoRepository cidadaoRepository) {
+	@Autowired
+	CidadaoController(CadastroCidadaoService cadastroCidadaoService, CidadaoRepository cidadaoRepository){
+		this.cadastroCidadaoService = cadastroCidadaoService;
 		this.cidadaoRepository = cidadaoRepository;
 	}
 	
+	/**
+	 * Método para executar a criação de um novo recurso no sistema
+	 * @param cidadaoRequest
+	 * @return 201 se o recurso foi criado com sucesso
+	 * @throws Exception Caso ocorra algum erro, o método chamado irá devolver a exceção
+	 */
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	private ResponseEntity<CidadaoResponse> criarCidadao(@Validated @RequestBody CidadaoRequest cidadaoRequest) 
+			throws Exception {
+		
+		Cidadao novoCidadao = cidadaoRequest.criarNovoCidadao();
+		cadastroCidadaoService.salvar(novoCidadao);
+		
+		CidadaoResponse cidadaoRetorno = novoCidadao.resposta();
+		return ResponseEntity.status(HttpStatus.CREATED).body(cidadaoRetorno);
+	}
+
 	/**
 	 * Endpoint para listar os cidadãos solicitados no sistema
 	 * @return cidadaoRepository
 	 */
 	@GetMapping
-	public List<CidadaoResponse> listar() {
+	private List<CidadaoResponse> listar() {
 		return cidadaoRepository.findAll().stream()
 			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail()))
 			    .collect(Collectors.toList());
@@ -61,8 +78,8 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 	 * @param parametro
 	 * @return
 	 */
-	@GetMapping("/buscaPorId/{parametro}")
-	public ResponseEntity<Cidadao> buscaPorId(@PathVariable Long parametro) {
+	@GetMapping("/{parametro}")
+	private ResponseEntity<Cidadao> buscaPorId(@PathVariable Long parametro) {
 		Optional<Cidadao> cidadao = cidadaoRepository.findById(parametro);
 		
 		if (cidadao.isPresent()) {
@@ -75,11 +92,11 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 	/**
 	 * 
 	 * @param email
-	 * @return
-	 * @throws Exception
+	 * @return 
+	 * @throws Exception Caso ocorra algum erro, o método chamado irá devolver a exceção
 	 */
-	@GetMapping("/buscaPorEmail/{email}")
-	public ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) throws Exception {
+	@GetMapping("/email/{email}")
+	private ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) throws Exception {
 			
 			List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaEmail(email);
 			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
@@ -89,30 +106,13 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 	 * 
 	 * @param cpf
 	 * @return
-	 * @throws Exception
+	 * @throws Exception Caso ocorra algum erro, o método chamado irá devolver a exceção
 	 */
-	@GetMapping("/buscaPorCpf/{cpf}")
-	public ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) throws Exception {
+	@GetMapping("/cpf/{cpf}")
+	private ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) throws Exception {
 			
 			List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaCpf(cpf);
 			return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 		}
 	
-	/**
-	 * 
-	 * @param cidadaoRequest
-	 * @return
-	 * @throws Exception
-	 */
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<CidadaoResponse> criarCidadao(@Validated @RequestBody CidadaoRequest cidadaoRequest) 
-			throws Exception {
-		
-		Cidadao novoCidadao = cidadaoRequest.criarNovoCidadao();
-		cadastroCidadaoService.salvar(novoCidadao);
-		
-		CidadaoResponse cidadaoRetorno = novoCidadao.resposta();
-		return ResponseEntity.status(HttpStatus.CREATED).body(cidadaoRetorno);
-	}
 }
