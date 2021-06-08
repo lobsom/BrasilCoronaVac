@@ -10,17 +10,14 @@ public class VacinaResponse {
 	@NotBlank (message="Vacina em branco")
 	private String vacina;
 	private Date dataVacina;
-	private Cidadao cidadao;
-	
 	/**
 	 * @param vacina
 	 * @param dataVacina
 	 */
-	public VacinaResponse(@NotBlank(message = "Vacina em branco") String vacina, Date dataVacina, Cidadao cidadao) {
+	public VacinaResponse(String vacina, Date dataVacina) {
 		super();
 		this.vacina = vacina;
 		this.dataVacina = dataVacina;
-		this.cidadao = cidadao;
 	}
 	
 	/**
@@ -28,7 +25,7 @@ public class VacinaResponse {
 	 * @return VacinaResponse Instância de AplicacaoVacina com os atributos de retorno
 	 */
 	public VacinaResponse exibirVacina() {
-		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
+		return new VacinaResponse(this.vacina, this.dataVacina);
 	}
 	
 	
@@ -45,13 +42,5 @@ public class VacinaResponse {
 		this.dataVacina = dataVacina;
 	}
 
-	public Cidadao getCidadao() {
-		return cidadao;
-	}
-
-	public void setCidadao(Cidadao cidadao) {
-		this.cidadao = cidadao;
-	}
-	
 }
 

@@ -10,19 +10,15 @@ import org.springframework.web.server.ResponseStatusException;
 import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 
-
-
 @Service
 public class CadastroCidadaoService {
 	private final CidadaoRepository cidadaoRepository;
-	
 	/**
 	 * Injeção de dependência através do construtor da classe
 	 * @param cidadaoRepository
 	 */
 	@Autowired
-	CadastroCidadaoService (CidadaoRepository cidadaoRepository){
-		super();
+	private CadastroCidadaoService (CidadaoRepository cidadaoRepository){
 		this.cidadaoRepository = cidadaoRepository;
 	};
 	
@@ -50,7 +46,7 @@ public class CadastroCidadaoService {
 	public List<Cidadao> buscaCpf(String cpf) throws Exception {
 		List<Cidadao> verificaCpf =  cidadaoRepository.findByCpf(cpf);
 		if ((verificaCpf != null) && (!verificaCpf.isEmpty())) {
-			return (List<Cidadao>) verificaCpf ;
+			return (List<Cidadao>) verificaCpf;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF não existe.");
 	}

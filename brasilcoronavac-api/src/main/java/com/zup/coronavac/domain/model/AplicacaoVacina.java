@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -29,16 +27,12 @@ public class AplicacaoVacina {
 	@NotBlank (message="Vacina em branco")
 	private String vacina;
 	
+	@NotBlank(message = "E-mail em branco")
+	@Email(message = "E-mail inválido!")
+	private String email;
+	
 	//@NotBlank(message = "Data inválida!")
 	private Date dataVacina;
-	
-	@ManyToOne
-	@JoinColumn(nullable = false, 
-		name = "idCidadao", 
-		updatable = false, 
-		insertable = false,
-		referencedColumnName = "id") //unique = false <- esse atributo não é necessário porque o default é falso
-	private Cidadao cidadao;
 	
 
 	@Deprecated
@@ -51,13 +45,14 @@ public class AplicacaoVacina {
 	 * @param dataVacina
 	 * @param cidadao
 	 */
-	public AplicacaoVacina(@NotBlank(message = "Vacina em branco") String vacina,
-			@NotBlank(message = "E-mail em branco") @Email(message = "E-mail inválido!") String email, Date dataVacina,
-			Cidadao cidadao) {
+	public AplicacaoVacina(
+			String vacina,
+			String email, 
+			Date dataVacina) {
 		super();
 		this.vacina = vacina;
+		this.email = email;
 		this.dataVacina = dataVacina;
-		this.cidadao = cidadao;
 	}
 
 
@@ -95,20 +90,23 @@ public class AplicacaoVacina {
 		this.dataVacina = dataVacina;
 	}
 
-	public Cidadao getCidadao() {
-		return cidadao;
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCidadao(Cidadao cidadao) {
-		this.cidadao = cidadao;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
 
 	/**
 	 * Instância de VacinaResponse com os membros que devem ser exibidos na resposta
 	 * @return VacinaResponse
 	 */
 	public VacinaResponse resposta() {
-		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
+		return new VacinaResponse(this.vacina, this.dataVacina);
 	}
 	
 }

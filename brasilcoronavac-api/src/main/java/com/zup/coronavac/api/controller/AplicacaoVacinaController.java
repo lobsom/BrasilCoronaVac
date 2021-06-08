@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zup.coronavac.api.dto.CidadaoResponse;
 import com.zup.coronavac.api.dto.VacinaRequest;
 import com.zup.coronavac.api.dto.VacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
@@ -41,12 +39,11 @@ public class AplicacaoVacinaController {
 	
 	/**
 	 * 
-	 * @param vacina
-	 * @return
+	 * @param
+	 * @return ResponseEntity<VacinaResponse> Entidade de resposta com campos não sensíveis
 	 * @throws Exception
 	 */
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest) 
 			throws Exception {
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
@@ -64,7 +61,7 @@ public class AplicacaoVacinaController {
 	public List<AplicacaoVacina> listar() {
 		return vacinaRepository.findAll();
 	}
-/**	
+	
 	@GetMapping("/{vacinaId}")
 	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) {
 		Optional<AplicacaoVacina> vacina = vacinaRepository.findById(vacinaId);
@@ -75,7 +72,7 @@ public class AplicacaoVacinaController {
 		
 		return ResponseEntity.notFound().build();
 	}
-	*/
+
 	
 	
 }

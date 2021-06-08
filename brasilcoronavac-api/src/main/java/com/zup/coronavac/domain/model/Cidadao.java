@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.zup.coronavac.api.dto.CidadaoResponse;
@@ -65,10 +63,10 @@ public class Cidadao {
 	 * @param email Email do cidadão
 	 * @param dataNascimento Data de nascimento do cidadão
 	 */
-	public Cidadao(@NotBlank(message = "Nome em branco") String nome,
-			@NotBlank(message = "CPF em branco") @CPF(message = "CPF inválido!") String cpf,
-			@NotBlank(message = "E-mail em branco") @Email(message = "E-mail inválido!") String email,
-			@NotBlank(message = "Data inválida!") Date dataNascimento) {
+	public Cidadao(String nome,
+			String cpf,
+			String email,
+			Date dataNascimento) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;

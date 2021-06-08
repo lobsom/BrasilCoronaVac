@@ -63,7 +63,8 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 	}
 
 	/**
-	 * Endpoint para listar os cidadãos solicitados no sistema
+	 * Lista todos os cidadãos criados no sistema.<br> 
+	 * Utiliza função Lambda para serializar os objetos retornados.
 	 * @return cidadaoRepository
 	 */
 	@GetMapping
