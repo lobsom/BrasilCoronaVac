@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zup.coronavac.api.dto.VacinaRequest;
 import com.zup.coronavac.api.dto.VacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
+import com.zup.coronavac.domain.model.Cidadao;
+import com.zup.coronavac.domain.repository.CidadaoRepository;
 import com.zup.coronavac.domain.repository.VacinaRepository;
+import com.zup.coronavac.domain.service.CadastroCidadaoService;
 import com.zup.coronavac.domain.service.CadastroVacinaService;
 
 @RestController
@@ -25,6 +28,7 @@ import com.zup.coronavac.domain.service.CadastroVacinaService;
 public class AplicacaoVacinaController {
 	private final VacinaRepository vacinaRepository;
 	private final CadastroVacinaService cadastroVacinaService; 
+	private final CidadaoRepository cidadaoRepository;
 	
 	/**
 	 * 
@@ -32,9 +36,12 @@ public class AplicacaoVacinaController {
 	 * @param cadastroVacina
 	 */
 	@Autowired
-	AplicacaoVacinaController(VacinaRepository vacinaRepository, CadastroVacinaService cadastroVacinaService){
+	AplicacaoVacinaController(VacinaRepository vacinaRepository, 
+			CadastroVacinaService cadastroVacinaService,
+			CidadaoRepository cidadaoRepository){
 		this.vacinaRepository = vacinaRepository;
 		this.cadastroVacinaService = cadastroVacinaService;
+		this.cidadaoRepository = cidadaoRepository;
 	}
 	
 	/**
@@ -43,16 +50,17 @@ public class AplicacaoVacinaController {
 	 * @return ResponseEntity<VacinaResponse> Entidade de resposta com campos não sensíveis
 	 * @throws Exception
 	 */
-	@PostMapping
-	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest) 
+	@PostMapping("/{cidadaoId}")
+	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
 			throws Exception {
+		Cidadao cidadao = cidadaoRepository.findById(cidadaoId).get();
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
+		novaVacina.setCidadao(cidadao);
 		cadastroVacinaService.salvar(novaVacina);
 		
 		VacinaResponse vacinaRetorno = novaVacina.resposta();
 		return ResponseEntity.status(HttpStatus.CREATED).body(vacinaRetorno);
 	}
-	
 	/**
 	 * 
 	 * @return

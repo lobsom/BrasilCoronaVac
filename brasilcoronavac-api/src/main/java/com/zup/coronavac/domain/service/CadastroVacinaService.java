@@ -35,6 +35,7 @@ public class CadastroVacinaService {
 		if (!existeEmail(vacina.getEmail())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cidadão não cadastrado no sistema.");
 		}
+		
 		return vacinaRepository.save(vacina);
 	}
 	

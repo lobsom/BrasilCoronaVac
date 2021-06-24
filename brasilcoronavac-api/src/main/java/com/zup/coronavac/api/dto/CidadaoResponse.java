@@ -1,5 +1,9 @@
 package com.zup.coronavac.api.dto;
 
+import java.util.List;
+
+import com.zup.coronavac.domain.model.AplicacaoVacina;
+
 /**
  * 
  * @author Marcelo Gomes
@@ -17,7 +21,6 @@ public class CidadaoResponse {
 	 * @param email
 	 */
 	public CidadaoResponse(Long id, String nome, String email) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -49,6 +52,9 @@ public class CidadaoResponse {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	
+	
 
 
 }

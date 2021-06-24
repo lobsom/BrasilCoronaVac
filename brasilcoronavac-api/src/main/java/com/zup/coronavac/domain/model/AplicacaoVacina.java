@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -34,6 +36,13 @@ public class AplicacaoVacina {
 	//@NotBlank(message = "Data inválida!")
 	private Date dataVacina;
 	
+	/**
+	 * Se no banco de dados é apenas uma coluna... como que este membro de classe é um tipo Cidadao?
+	 */
+	@ManyToOne
+	@JoinColumn(name = "idCidadao") 
+	private Cidadao cidadao;
+	
 
 	@Deprecated
 	public AplicacaoVacina() {}
@@ -49,13 +58,10 @@ public class AplicacaoVacina {
 			String vacina,
 			String email, 
 			Date dataVacina) {
-		super();
 		this.vacina = vacina;
 		this.email = email;
 		this.dataVacina = dataVacina;
 	}
-
-
 
 
 	/**
@@ -90,14 +96,26 @@ public class AplicacaoVacina {
 		this.dataVacina = dataVacina;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the cidadao
+	 */
+	public Cidadao getCidadao() {
+		return cidadao;
+	}
+
+	/**
+	 * @param cidadao the cidadao to set
+	 */
+	public void setCidadao(Cidadao cidadao) {
+		this.cidadao = cidadao;
 	}
 
 
@@ -106,8 +124,10 @@ public class AplicacaoVacina {
 	 * @return VacinaResponse
 	 */
 	public VacinaResponse resposta() {
-		return new VacinaResponse(this.vacina, this.dataVacina);
+		
+		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
 	}
+
 	
 }
 

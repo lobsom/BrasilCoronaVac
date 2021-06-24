@@ -92,4 +92,10 @@ public class CadastroCidadaoService {
 		return false;
 	}
 
+	public static boolean verificaCidadao(Long id) {
+		if(id != null) return true;// TODO Auto-generated method stub
+		else return false;
+	}
+
+
 }

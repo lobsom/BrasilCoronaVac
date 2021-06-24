@@ -46,4 +46,5 @@ public class VacinaRequest {
 		this.dataVacina = dataVacina;
 	}
 	
+	
 }
