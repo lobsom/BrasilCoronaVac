@@ -14,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zup.coronavac.api.dto.CidadaoResponse;
 
 /**
@@ -43,6 +44,7 @@ public class Cidadao {
 	
 	@NotBlank(message = "CPF em branco")
 	@CPF(message = "CPF inválido!")
+	@JsonIgnore
 	private String cpf;
 	
 	@NotBlank(message = "E-mail em branco")
@@ -54,6 +56,7 @@ public class Cidadao {
 	
 	@OneToMany
 	@JoinColumn(name = "idCidadao")
+	@JsonIgnore
 	private List<AplicacaoVacina> vacinas;
 
 	/**

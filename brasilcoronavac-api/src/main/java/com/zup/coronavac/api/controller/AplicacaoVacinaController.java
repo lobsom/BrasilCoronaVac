@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.zup.coronavac.api.dto.VacinaRequest;
 import com.zup.coronavac.api.dto.VacinaResponse;
@@ -20,7 +21,6 @@ import com.zup.coronavac.domain.model.AplicacaoVacina;
 import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 import com.zup.coronavac.domain.repository.VacinaRepository;
-import com.zup.coronavac.domain.service.CadastroCidadaoService;
 import com.zup.coronavac.domain.service.CadastroVacinaService;
 
 @RestController
@@ -53,7 +53,7 @@ public class AplicacaoVacinaController {
 	@PostMapping("/{cidadaoId}")
 	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
 			throws Exception {
-		Cidadao cidadao = cidadaoRepository.findById(cidadaoId).get();
+		Cidadao cidadao = cidadaoRepository.findById(cidadaoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Cidadao não encontrado"));
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
 		novaVacina.setCidadao(cidadao);
 		cadastroVacinaService.salvar(novaVacina);
