@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.zup.coronavac.api.dto.VacinaResponse;
@@ -29,16 +28,9 @@ public class AplicacaoVacina {
 	@NotBlank (message="Vacina em branco")
 	private String vacina;
 	
-	@NotBlank(message = "E-mail em branco")
-	@Email(message = "E-mail inválido!")
-	private String email;
-	
 	//@NotBlank(message = "Data inválida!")
 	private Date dataVacina;
-	
-	/**
-	 * Se no banco de dados é apenas uma coluna... como que este membro de classe é um tipo Cidadao?
-	 */
+
 	@ManyToOne
 	@JoinColumn(name = "idCidadao") 
 	private Cidadao cidadao;
@@ -50,16 +42,12 @@ public class AplicacaoVacina {
 	
 	/**
 	 * @param vacina
-	 * @param email
 	 * @param dataVacina
-	 * @param cidadao
 	 */
 	public AplicacaoVacina(
 			String vacina,
-			String email, 
 			Date dataVacina) {
 		this.vacina = vacina;
-		this.email = email;
 		this.dataVacina = dataVacina;
 	}
 
@@ -94,14 +82,6 @@ public class AplicacaoVacina {
 	 */
 	public void setDataVacina(Date dataVacina) {
 		this.dataVacina = dataVacina;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	/**

@@ -1,1 +1,6 @@
+com.zup.coronavac
 com.zup.coronavac.api.controller
+com.zup.coronavac.api.dto
+com.zup.coronavac.domain.model
+com.zup.coronavac.domain.repository
+com.zup.coronavac.domain.service

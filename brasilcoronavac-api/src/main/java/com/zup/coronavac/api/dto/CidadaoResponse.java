@@ -13,6 +13,7 @@ public class CidadaoResponse {
 	private Long id;
 	private String nome;
 	private String email;
+	private List<AplicacaoVacina> vacinas;
 	
 	/**
 	 * 
@@ -20,10 +21,11 @@ public class CidadaoResponse {
 	 * @param nome
 	 * @param email
 	 */
-	public CidadaoResponse(Long id, String nome, String email) {
+	public CidadaoResponse(Long id, String nome, String email, List<AplicacaoVacina> vacinas) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
+		this.vacinas= vacinas;
 	}
 	
 	/**
@@ -31,7 +33,7 @@ public class CidadaoResponse {
 	 * @return CidadaoResponse Instância de Cidadao com os atributos de retorno
 	 */
 	public CidadaoResponse exibirCidadao() {
-		return new CidadaoResponse(this.id, this.nome, this.email);
+		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinas);
 	}
 	
 	public Long getId() {
@@ -53,8 +55,19 @@ public class CidadaoResponse {
 		this.email = email;
 	}
 
-	
-	
+	/**
+	 * @return the vacinas
+	 */
+	public List<AplicacaoVacina> getVacinas() {
+		return vacinas;
+	}
+
+	/**
+	 * @param vacinas the vacinas to set
+	 */
+	public void setVacinas(List<AplicacaoVacina> vacinas) {
+		this.vacinas = vacinas;
+	}
 
 
 }

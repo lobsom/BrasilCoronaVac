@@ -13,22 +13,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.zup.coronavac.api.dto.VacinaRequest;
 import com.zup.coronavac.api.dto.VacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
 import com.zup.coronavac.domain.model.Cidadao;
-import com.zup.coronavac.domain.repository.CidadaoRepository;
-import com.zup.coronavac.domain.repository.VacinaRepository;
+import com.zup.coronavac.domain.service.CadastroCidadaoService;
 import com.zup.coronavac.domain.service.CadastroVacinaService;
 
+/**
+ * Controller da Aplicação das Vacinas
+ * @author Marcelo Gomes
+ *
+ */
 @RestController
 @RequestMapping("/vacina")
 public class AplicacaoVacinaController {
-	private final VacinaRepository vacinaRepository;
 	private final CadastroVacinaService cadastroVacinaService; 
-	private final CidadaoRepository cidadaoRepository;
+	private final CadastroCidadaoService cadastroCidadaoService;
 	
 	/**
 	 * 
@@ -36,12 +38,11 @@ public class AplicacaoVacinaController {
 	 * @param cadastroVacina
 	 */
 	@Autowired
-	AplicacaoVacinaController(VacinaRepository vacinaRepository, 
+	AplicacaoVacinaController(
 			CadastroVacinaService cadastroVacinaService,
-			CidadaoRepository cidadaoRepository){
-		this.vacinaRepository = vacinaRepository;
+			CadastroCidadaoService cadastroCidadaoService){
 		this.cadastroVacinaService = cadastroVacinaService;
-		this.cidadaoRepository = cidadaoRepository;
+		this.cadastroCidadaoService = cadastroCidadaoService;
 	}
 	
 	/**
@@ -53,7 +54,7 @@ public class AplicacaoVacinaController {
 	@PostMapping("/{cidadaoId}")
 	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
 			throws Exception {
-		Cidadao cidadao = cidadaoRepository.findById(cidadaoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Cidadao não encontrado"));
+		Cidadao cidadao = cadastroCidadaoService.existeCidadao(cidadaoId);
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
 		novaVacina.setCidadao(cidadao);
 		cadastroVacinaService.salvar(novaVacina);
@@ -61,18 +62,19 @@ public class AplicacaoVacinaController {
 		VacinaResponse vacinaRetorno = novaVacina.resposta();
 		return ResponseEntity.status(HttpStatus.CREATED).body(vacinaRetorno);
 	}
+	
 	/**
 	 * 
 	 * @return
 	 */
 	@GetMapping
 	public List<AplicacaoVacina> listar() {
-		return vacinaRepository.findAll();
+		return cadastroVacinaService.listarVacinas();
 	}
 	
 	@GetMapping("/{vacinaId}")
-	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) {
-		Optional<AplicacaoVacina> vacina = vacinaRepository.findById(vacinaId);
+	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) throws Exception {
+		Optional<AplicacaoVacina> vacina = cadastroVacinaService.listarVacinas(vacinaId);
 		
 		if (vacina.isPresent()) {
 			return ResponseEntity.ok(vacina.get());

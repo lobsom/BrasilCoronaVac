@@ -190,7 +190,7 @@ public class Cidadao {
 	 * @return CidadadoResponse 
 	 */
 	public CidadaoResponse resposta() {
-		return new CidadaoResponse(this.id, this.nome, this.email);
+		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinas);
 	}
 	
 }

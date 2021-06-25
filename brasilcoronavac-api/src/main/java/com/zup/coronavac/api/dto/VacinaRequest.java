@@ -11,7 +11,6 @@ import com.zup.coronavac.domain.model.AplicacaoVacina;
  */
 public class VacinaRequest {
 	private String vacina;	
-	private String email;
 	private Date dataVacina;
 	
 	/**
@@ -19,7 +18,7 @@ public class VacinaRequest {
 	 * @return AplicacaoVacina
 	 */
 	public AplicacaoVacina criarNovaVacina() {
-		return new AplicacaoVacina(this.vacina, this.email, this.dataVacina);
+		return new AplicacaoVacina(this.vacina, this.dataVacina);
 	}
 		
 	public String getVacina() {
@@ -28,14 +27,6 @@ public class VacinaRequest {
 
 	public void setVacina(String vacina) {
 		this.vacina = vacina;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Date getDataVacina() {
