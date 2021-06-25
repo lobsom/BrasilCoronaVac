@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.zup.coronavac.api.dto.VacinaResponse;
@@ -27,12 +28,12 @@ public class AplicacaoVacina {
 	@NotBlank (message="Vacina em branco")
 	private String vacina;
 	
-	@NotBlank(message = "E-mail em branco")
-	@Email(message = "E-mail inválido!")
-	private String email;
-	
 	//@NotBlank(message = "Data inválida!")
 	private Date dataVacina;
+
+	@ManyToOne
+	@JoinColumn(name = "idCidadao") 
+	private Cidadao cidadao;
 	
 
 	@Deprecated
@@ -41,21 +42,14 @@ public class AplicacaoVacina {
 	
 	/**
 	 * @param vacina
-	 * @param email
 	 * @param dataVacina
-	 * @param cidadao
 	 */
 	public AplicacaoVacina(
 			String vacina,
-			String email, 
 			Date dataVacina) {
-		super();
 		this.vacina = vacina;
-		this.email = email;
 		this.dataVacina = dataVacina;
 	}
-
-
 
 
 	/**
@@ -90,14 +84,18 @@ public class AplicacaoVacina {
 		this.dataVacina = dataVacina;
 	}
 
-
-	public String getEmail() {
-		return email;
+	/**
+	 * @return the cidadao
+	 */
+	public Cidadao getCidadao() {
+		return cidadao;
 	}
 
-
-	public void setEmail(String email) {
-		this.email = email;
+	/**
+	 * @param cidadao the cidadao to set
+	 */
+	public void setCidadao(Cidadao cidadao) {
+		this.cidadao = cidadao;
 	}
 
 
@@ -106,8 +104,10 @@ public class AplicacaoVacina {
 	 * @return VacinaResponse
 	 */
 	public VacinaResponse resposta() {
-		return new VacinaResponse(this.vacina, this.dataVacina);
+		
+		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
 	}
+
 	
 }
 

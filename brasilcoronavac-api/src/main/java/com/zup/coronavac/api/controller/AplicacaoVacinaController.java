@@ -17,14 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zup.coronavac.api.dto.VacinaRequest;
 import com.zup.coronavac.api.dto.VacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
-import com.zup.coronavac.domain.repository.VacinaRepository;
+import com.zup.coronavac.domain.model.Cidadao;
+import com.zup.coronavac.domain.service.CadastroCidadaoService;
 import com.zup.coronavac.domain.service.CadastroVacinaService;
 
+/**
+ * Controller da Aplicação das Vacinas
+ * @author Marcelo Gomes
+ *
+ */
 @RestController
 @RequestMapping("/vacina")
 public class AplicacaoVacinaController {
-	private final VacinaRepository vacinaRepository;
 	private final CadastroVacinaService cadastroVacinaService; 
+	private final CadastroCidadaoService cadastroCidadaoService;
 	
 	/**
 	 * 
@@ -32,9 +38,11 @@ public class AplicacaoVacinaController {
 	 * @param cadastroVacina
 	 */
 	@Autowired
-	AplicacaoVacinaController(VacinaRepository vacinaRepository, CadastroVacinaService cadastroVacinaService){
-		this.vacinaRepository = vacinaRepository;
+	AplicacaoVacinaController(
+			CadastroVacinaService cadastroVacinaService,
+			CadastroCidadaoService cadastroCidadaoService){
 		this.cadastroVacinaService = cadastroVacinaService;
+		this.cadastroCidadaoService = cadastroCidadaoService;
 	}
 	
 	/**
@@ -43,10 +51,12 @@ public class AplicacaoVacinaController {
 	 * @return ResponseEntity<VacinaResponse> Entidade de resposta com campos não sensíveis
 	 * @throws Exception
 	 */
-	@PostMapping
-	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest) 
+	@PostMapping("/{cidadaoId}")
+	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
 			throws Exception {
+		Cidadao cidadao = cadastroCidadaoService.existeCidadao(cidadaoId);
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
+		novaVacina.setCidadao(cidadao);
 		cadastroVacinaService.salvar(novaVacina);
 		
 		VacinaResponse vacinaRetorno = novaVacina.resposta();
@@ -59,12 +69,12 @@ public class AplicacaoVacinaController {
 	 */
 	@GetMapping
 	public List<AplicacaoVacina> listar() {
-		return vacinaRepository.findAll();
+		return cadastroVacinaService.listarVacinas();
 	}
 	
 	@GetMapping("/{vacinaId}")
-	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) {
-		Optional<AplicacaoVacina> vacina = vacinaRepository.findById(vacinaId);
+	public ResponseEntity<AplicacaoVacina> buscar(@PathVariable Long vacinaId) throws Exception {
+		Optional<AplicacaoVacina> vacina = cadastroVacinaService.listarVacinas(vacinaId);
 		
 		if (vacina.isPresent()) {
 			return ResponseEntity.ok(vacina.get());

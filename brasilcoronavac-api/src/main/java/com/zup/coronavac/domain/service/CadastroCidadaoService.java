@@ -1,42 +1,46 @@
 package com.zup.coronavac.domain.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.zup.coronavac.api.dto.CidadaoResponse;
 import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 
 @Service
 public class CadastroCidadaoService {
 	private final CidadaoRepository cidadaoRepository;
+
 	/**
 	 * Injeção de dependência através do construtor da classe
+	 * 
 	 * @param cidadaoRepository
 	 */
 	@Autowired
-	private CadastroCidadaoService (CidadaoRepository cidadaoRepository){
+	private CadastroCidadaoService(CidadaoRepository cidadaoRepository) {
 		this.cidadaoRepository = cidadaoRepository;
 	};
-	
-/**
- * Método para localizar um registro a partir do e-mail cadastrado
- * 
- * @param  email   Tipo String que será usado como argumento da busca
- * @return List<Cidadao>: lista de objetos Cidadao 
- * @throws Exception Se o 
- * **/
+
+	/**
+	 * Método para localizar um registro a partir do e-mail cadastrado
+	 * 
+	 * @param email Tipo String que será usado como argumento da busca
+	 * @return List<Cidadao>: lista de objetos Cidadao
+	 * @throws Exception Se o e-mail não consta na base
+	 **/
 	public List<Cidadao> buscaEmail(String email) throws Exception {
-		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
-		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
-			return (List<Cidadao>) verificaEmail ;
+		List<Cidadao> verificaEmail = cidadaoRepository.findByEmail(email);
+		if (!verificaEmail.isEmpty()) {
+			return (List<Cidadao>) verificaEmail;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "E-mail não existe.");
 	}
-	
+
 	/**
 	 * 
 	 * @param cpf
@@ -44,18 +48,19 @@ public class CadastroCidadaoService {
 	 * @throws Exception 404 se o recurso não foi localizado
 	 */
 	public List<Cidadao> buscaCpf(String cpf) throws Exception {
-		List<Cidadao> verificaCpf =  cidadaoRepository.findByCpf(cpf);
-		if ((verificaCpf != null) && (!verificaCpf.isEmpty())) {
+		List<Cidadao> verificaCpf = cidadaoRepository.findByCpf(cpf);
+		if (!verificaCpf.isEmpty()) {
 			return (List<Cidadao>) verificaCpf;
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF não existe.");
 	}
-	
+
 	/**
 	 * 
-	 * @param cidadao Cria o recurso Cidadão no sistema 
+	 * @param cidadao Cria o recurso Cidadão no sistema
 	 * @return Objeto Cidadao
-	 * @throws Exception Caso os métodos chamados retornem true, será lançada a exceção
+	 * @throws Exception Caso os métodos chamados retornem true, será lançada a
+	 *                   exceção
 	 */
 	public Cidadao salvar(Cidadao cidadao) throws Exception {
 		if (existeEmail(cidadao.getEmail())) {
@@ -65,15 +70,15 @@ public class CadastroCidadaoService {
 		}
 		return cidadaoRepository.save(cidadao);
 	}
-	
+
 	/**
 	 * 
 	 * @param email
 	 * @return
 	 */
 	private boolean existeEmail(String email) {
-		List<Cidadao> verificaEmail =  cidadaoRepository.findByEmail(email);
-		if ((verificaEmail != null) && (!verificaEmail.isEmpty())) {
+		List<Cidadao> verificaEmail = cidadaoRepository.findByEmail(email);
+		if (!verificaEmail.isEmpty()) {
 			return true;
 		}
 		return false;
@@ -86,10 +91,32 @@ public class CadastroCidadaoService {
 	 */
 	private boolean existeCPF(String cpf) {
 		List<Cidadao> verificaCpf = cidadaoRepository.findByCpf(cpf);
-		if ((verificaCpf != null) && (!verificaCpf.isEmpty())) {
+		if (!verificaCpf.isEmpty()) {
 			return true;
 		}
 		return false;
+	}
+
+
+	public Cidadao existeCidadao(Long cidadaoId) {
+		return cidadaoRepository.findById(cidadaoId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Cidadao não encontrado"));
+		
+	}
+
+	public List<CidadaoResponse> listarCidadao() {
+		return cidadaoRepository
+				.findAll()
+				.stream()
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .collect(Collectors.toList());
+	}
+
+	public List<CidadaoResponse> listarCidadao(Long parametro) {
+		return cidadaoRepository
+				.findById(parametro)
+				.stream()
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .collect(Collectors.toList());
 	}
 
 }

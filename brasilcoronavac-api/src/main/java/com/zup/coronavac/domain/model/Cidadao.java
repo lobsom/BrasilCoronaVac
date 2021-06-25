@@ -1,16 +1,20 @@
 package com.zup.coronavac.domain.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zup.coronavac.api.dto.CidadaoResponse;
 
 /**
@@ -40,6 +44,7 @@ public class Cidadao {
 	
 	@NotBlank(message = "CPF em branco")
 	@CPF(message = "CPF inválido!")
+	@JsonIgnore
 	private String cpf;
 	
 	@NotBlank(message = "E-mail em branco")
@@ -48,6 +53,11 @@ public class Cidadao {
 	
 	//@NotNull(message = "Data inválida!")
 	private Date dataNascimento;
+	
+	@OneToMany
+	@JoinColumn(name = "idCidadao")
+	@JsonIgnore
+	private List<AplicacaoVacina> vacinas;
 
 	/**
 	 * Construtor não mais utilizado por conta de alguma coisa que ainda não sei... <br>
@@ -67,11 +77,14 @@ public class Cidadao {
 			String cpf,
 			String email,
 			Date dataNascimento) {
-		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
+	}
+	
+	public Cidadao(Long id) {
+		this.id = id;
 	}
 
 
@@ -157,12 +170,27 @@ public class Cidadao {
 		this.dataNascimento = dataNascimento;
 	}
 	
+	
+	/**
+	 * @return the vacinas
+	 */
+	public List<AplicacaoVacina> getVacinas() {
+		return vacinas;
+	}
+
+	/**
+	 * @param vacinas the vacinas to set
+	 */
+	public void setVacinas(List<AplicacaoVacina> vacinas) {
+		this.vacinas = vacinas;
+	}
+
 	/**
 	 * Retorno do objeto contendo id, nome e email do cidadao consultado
 	 * @return CidadadoResponse 
 	 */
 	public CidadaoResponse resposta() {
-		return new CidadaoResponse(this.id, this.nome, this.email);
+		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinas);
 	}
 	
 }

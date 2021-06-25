@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.zup.coronavac.api.controller"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.zup.coronavac"},{"l":"com.zup.coronavac.api.controller"},{"l":"com.zup.coronavac.api.dto"},{"l":"com.zup.coronavac.domain.model"},{"l":"com.zup.coronavac.domain.repository"},{"l":"com.zup.coronavac.domain.service"}];updateSearchResults();
