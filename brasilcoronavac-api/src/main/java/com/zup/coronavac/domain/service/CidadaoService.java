@@ -13,7 +13,7 @@ import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 
 @Service
-public class CadastroCidadaoService {
+public class CidadaoService {
 	private final CidadaoRepository cidadaoRepository;
 
 	/**
@@ -22,7 +22,7 @@ public class CadastroCidadaoService {
 	 * @param cidadaoRepository
 	 */
 	@Autowired
-	private CadastroCidadaoService(CidadaoRepository cidadaoRepository) {
+	private CidadaoService(CidadaoRepository cidadaoRepository) {
 		this.cidadaoRepository = cidadaoRepository;
 	};
 

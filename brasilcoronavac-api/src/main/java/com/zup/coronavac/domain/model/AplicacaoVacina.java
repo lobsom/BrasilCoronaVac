@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
-import com.zup.coronavac.api.dto.VacinaResponse;
+import com.zup.coronavac.api.dto.AplicacaoVacinaResponse;
 
 /**
  * 
@@ -103,9 +103,9 @@ public class AplicacaoVacina {
 	 * Instância de VacinaResponse com os membros que devem ser exibidos na resposta
 	 * @return VacinaResponse
 	 */
-	public VacinaResponse resposta() {
+	public AplicacaoVacinaResponse resposta() {
 		
-		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
+		return new AplicacaoVacinaResponse(this.vacina, this.dataVacina, this.cidadao);
 	}
 
 	

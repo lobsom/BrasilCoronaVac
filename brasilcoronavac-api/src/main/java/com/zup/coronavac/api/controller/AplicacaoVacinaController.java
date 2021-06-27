@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zup.coronavac.api.dto.VacinaRequest;
-import com.zup.coronavac.api.dto.VacinaResponse;
+import com.zup.coronavac.api.dto.AplicacaoVacinaRequest;
+import com.zup.coronavac.api.dto.AplicacaoVacinaResponse;
 import com.zup.coronavac.domain.model.AplicacaoVacina;
 import com.zup.coronavac.domain.model.Cidadao;
-import com.zup.coronavac.domain.service.CadastroCidadaoService;
-import com.zup.coronavac.domain.service.CadastroVacinaService;
+import com.zup.coronavac.domain.service.CidadaoService;
+import com.zup.coronavac.domain.service.AplicacaoVacinaService;
 
 /**
  * Controller da Aplicação das Vacinas
@@ -27,10 +27,10 @@ import com.zup.coronavac.domain.service.CadastroVacinaService;
  *
  */
 @RestController
-@RequestMapping("/vacina")
+@RequestMapping("/aplicarvacina")
 public class AplicacaoVacinaController {
-	private final CadastroVacinaService cadastroVacinaService; 
-	private final CadastroCidadaoService cadastroCidadaoService;
+	private final AplicacaoVacinaService cadastroVacinaService; 
+	private final CidadaoService cadastroCidadaoService;
 	
 	/**
 	 * 
@@ -39,8 +39,8 @@ public class AplicacaoVacinaController {
 	 */
 	@Autowired
 	AplicacaoVacinaController(
-			CadastroVacinaService cadastroVacinaService,
-			CadastroCidadaoService cadastroCidadaoService){
+			AplicacaoVacinaService cadastroVacinaService,
+			CidadaoService cadastroCidadaoService){
 		this.cadastroVacinaService = cadastroVacinaService;
 		this.cadastroCidadaoService = cadastroCidadaoService;
 	}
@@ -52,14 +52,14 @@ public class AplicacaoVacinaController {
 	 * @throws Exception
 	 */
 	@PostMapping("/{cidadaoId}")
-	public ResponseEntity<VacinaResponse> aplicarVacina(@Validated @RequestBody VacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
+	public ResponseEntity<AplicacaoVacinaResponse> aplicarVacina(@Validated @RequestBody AplicacaoVacinaRequest vacinaRequest, @PathVariable("cidadaoId") Long cidadaoId) 
 			throws Exception {
 		Cidadao cidadao = cadastroCidadaoService.existeCidadao(cidadaoId);
 		AplicacaoVacina novaVacina = vacinaRequest.criarNovaVacina();
 		novaVacina.setCidadao(cidadao);
 		cadastroVacinaService.salvar(novaVacina);
 		
-		VacinaResponse vacinaRetorno = novaVacina.resposta();
+		AplicacaoVacinaResponse vacinaRetorno = novaVacina.resposta();
 		return ResponseEntity.status(HttpStatus.CREATED).body(vacinaRetorno);
 	}
 	

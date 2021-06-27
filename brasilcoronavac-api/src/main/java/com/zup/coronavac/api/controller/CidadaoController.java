@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.zup.coronavac.api.dto.CidadaoRequest;
 import com.zup.coronavac.api.dto.CidadaoResponse;
 import com.zup.coronavac.domain.model.Cidadao;
-import com.zup.coronavac.domain.service.CadastroCidadaoService;
+import com.zup.coronavac.domain.service.CidadaoService;
 
 /**
  * Recebe as requisições HTTP e envia a resposta.
@@ -29,15 +29,15 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 @RestController
 @RequestMapping("/cidadao")
 public class CidadaoController {
-	private final CadastroCidadaoService cadastroCidadaoService;
+	private final CidadaoService cadastroCidadaoService;
 	/**
 	 * Implementação de Injeção de dependência por Construtor
 	 * 
 	 * @param cadastroCidadaoService
-	 * @param cidadaoRepository
+	 * 
 	 */
 	@Autowired
-	CidadaoController(CadastroCidadaoService cadastroCidadaoService) {
+	CidadaoController(CidadaoService cadastroCidadaoService) {
 		this.cadastroCidadaoService = cadastroCidadaoService;
 	}
 

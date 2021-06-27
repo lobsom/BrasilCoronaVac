@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.zup.coronavac.domain.model.AplicacaoVacina;
-import com.zup.coronavac.domain.repository.CidadaoRepository;
-import com.zup.coronavac.domain.repository.VacinaRepository;
+import com.zup.coronavac.domain.repository.AplicacaoVacinaRepository;
 
 @Service
-public class CadastroVacinaService {
-	private final VacinaRepository vacinaRepository;
+public class AplicacaoVacinaService {
+	private final AplicacaoVacinaRepository aplicacaoVacinaRepository;
 
 	/**
 	 * Construtor da classe para a ID do Spring
@@ -22,8 +21,8 @@ public class CadastroVacinaService {
 	 * @param vacinaRepository
 	 */
 	@Autowired
-	private CadastroVacinaService(VacinaRepository vacinaRepository, CidadaoRepository cidadaoRepository) {
-		this.vacinaRepository = vacinaRepository;
+	private AplicacaoVacinaService(AplicacaoVacinaRepository aplicacaoVacinaRepository) {
+		this.aplicacaoVacinaRepository = aplicacaoVacinaRepository;
 	}
 
 	/**
@@ -34,7 +33,7 @@ public class CadastroVacinaService {
 	 * @throws Exception
 	 */
 	public AplicacaoVacina salvar(AplicacaoVacina vacina) throws Exception {
-		return vacinaRepository.save(vacina);
+		return aplicacaoVacinaRepository.save(vacina);
 	}
 
 	/**
@@ -42,7 +41,7 @@ public class CadastroVacinaService {
 	 * @return
 	 */
 	public List<AplicacaoVacina> listarVacinas() {
-		return vacinaRepository.findAll();
+		return aplicacaoVacinaRepository.findAll();
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class CadastroVacinaService {
 	 * @throws Exception
 	 */
 	public Optional<AplicacaoVacina> listarVacinas(Long vacinaId) throws Exception {
-		return Optional.of(vacinaRepository.findById(vacinaId)
+		return Optional.of(aplicacaoVacinaRepository.findById(vacinaId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada")));
 	}
 

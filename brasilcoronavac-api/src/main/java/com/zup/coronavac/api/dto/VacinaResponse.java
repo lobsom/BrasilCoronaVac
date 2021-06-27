@@ -1,61 +1,67 @@
 package com.zup.coronavac.api.dto;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
-import com.zup.coronavac.domain.model.Cidadao;
+import com.zup.coronavac.domain.model.Vacinacao;
 
 public class VacinaResponse {
-	@NotBlank (message="Vacina em branco")
-	private String vacina;
-	private Date dataVacina;
-	private Cidadao cidadao;
+	private String nomeVacina;
+	private String lote;
+	private Date validade;
 	/**
-	 * @param vacina
-	 * @param dataVacina
+	 * @param nomeVacina
+	 * @param lote
+	 * @param validade
 	 */
-	public VacinaResponse(String vacina, Date dataVacina, Cidadao cidadao) {
-		this.vacina = vacina;
-		this.dataVacina = dataVacina;
-		this.cidadao = cidadao;
+	public VacinaResponse(String nomeVacina, String lote, Date validade) {
+		this.nomeVacina = nomeVacina;
+		this.lote = lote;
+		this.validade = validade;
+	}
+	/**
+	 * @return the nomeVacina
+	 */
+	public String getNomeVacina() {
+		return nomeVacina;
+	}
+	/**
+	 * @param nomeVacina the nomeVacina to set
+	 */
+	public void setNomeVacina(String nomeVacina) {
+		this.nomeVacina = nomeVacina;
+	}
+	/**
+	 * @return the lote
+	 */
+	public String getLote() {
+		return lote;
+	}
+	/**
+	 * @param lote the lote to set
+	 */
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+	/**
+	 * @return the validade
+	 */
+	public Date getValidade() {
+		return validade;
+	}
+	/**
+	 * @param validade the validade to set
+	 */
+	public void setValidade(Date validade) {
+		this.validade = validade;
 	}
 	
-	/**
-	 * Exibir Vacina
-	 * @return VacinaResponse Instância de AplicacaoVacina com os atributos de retorno
-	 */
-	public VacinaResponse exibirVacina() {
-		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
-	}
 	
-	
-	public String getVacina() {
-		return vacina;
-	}
-	public void setVacina(String vacina) {
-		this.vacina = vacina;
-	}
-	public Date getDataVacina() {
-		return dataVacina;
-	}
-	public void setDataVacina(Date dataVacina) {
-		this.dataVacina = dataVacina;
-	}
-
-	/**
-	 * @return the cidadao
-	 */
-	public Cidadao getCidadao() {
-		return cidadao;
-	}
-
-	/**
-	 * @param cidadao the cidadao to set
-	 */
-	public void setCidadao(Cidadao cidadao) {
-		this.cidadao = cidadao;
-	}
 
 }
-

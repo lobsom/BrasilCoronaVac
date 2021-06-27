@@ -58,6 +58,10 @@ public class Cidadao {
 	@JoinColumn(name = "idCidadao")
 	@JsonIgnore
 	private List<AplicacaoVacina> vacinas;
+	
+	@OneToMany
+	@JoinColumn(name = "idCidadaoVacinado")
+	List<Vacinacao> vacinasRecebidas;
 
 	/**
 	 * Construtor não mais utilizado por conta de alguma coisa que ainda não sei... <br>
@@ -86,7 +90,6 @@ public class Cidadao {
 	public Cidadao(Long id) {
 		this.id = id;
 	}
-
 
 
 	// Gttrs'n'Sttrs
@@ -183,6 +186,20 @@ public class Cidadao {
 	 */
 	public void setVacinas(List<AplicacaoVacina> vacinas) {
 		this.vacinas = vacinas;
+	}
+	
+	/**
+	 * @return the vacinasRecebidas
+	 */
+	public List<Vacinacao> getVacinasRecebidas() {
+		return vacinasRecebidas;
+	}
+
+	/**
+	 * @param vacinasRecebidas the vacinasRecebidas to set
+	 */
+	public void setVacinasRecebidas(List<Vacinacao> vacinasRecebidas) {
+		this.vacinasRecebidas = vacinasRecebidas;
 	}
 
 	/**
