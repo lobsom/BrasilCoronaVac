@@ -1,61 +1,78 @@
 package com.zup.coronavac.api.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
-
-import com.zup.coronavac.domain.model.Cidadao;
-
+/**
+ * 
+ * @author Marcelo Gomes
+ *
+ */
 public class VacinaResponse {
-	@NotBlank (message="Vacina em branco")
-	private String vacina;
-	private Date dataVacina;
-	private Cidadao cidadao;
-	/**
-	 * @param vacina
-	 * @param dataVacina
-	 */
-	public VacinaResponse(String vacina, Date dataVacina, Cidadao cidadao) {
-		this.vacina = vacina;
-		this.dataVacina = dataVacina;
-		this.cidadao = cidadao;
-	}
-	
-	/**
-	 * Exibir Vacina
-	 * @return VacinaResponse Instância de AplicacaoVacina com os atributos de retorno
-	 */
-	public VacinaResponse exibirVacina() {
-		return new VacinaResponse(this.vacina, this.dataVacina, this.cidadao);
-	}
-	
-	
-	public String getVacina() {
-		return vacina;
-	}
-	public void setVacina(String vacina) {
-		this.vacina = vacina;
-	}
-	public Date getDataVacina() {
-		return dataVacina;
-	}
-	public void setDataVacina(Date dataVacina) {
-		this.dataVacina = dataVacina;
-	}
+	private String nomeVacina;
+	private String lote;
+	private Date validade;
+	private Integer proximaDose;
 
 	/**
-	 * @return the cidadao
+	 * @param nomeVacina String - Nome da vacina/fabricante
+	 * @param lote String - Lote de produção da vacina
+	 * @param validade Date - Data de validade da vacina
+	 * @param proximaDose Integer - Número de dias entre a primeira e segunda dose das vacinas
 	 */
-	public Cidadao getCidadao() {
-		return cidadao;
+	public VacinaResponse(String nomeVacina, String lote, Date validade, Integer proximaDose) {
+		this.nomeVacina = nomeVacina;
+		this.lote = lote;
+		this.validade = validade;
+		this.proximaDose = proximaDose;
 	}
-
 	/**
-	 * @param cidadao the cidadao to set
+	 * @return the nomeVacina
 	 */
-	public void setCidadao(Cidadao cidadao) {
-		this.cidadao = cidadao;
+	public String getNomeVacina() {
+		return nomeVacina;
 	}
-
+	/**
+	 * @param nomeVacina the nomeVacina to set
+	 */
+	public void setNomeVacina(String nomeVacina) {
+		this.nomeVacina = nomeVacina;
+	}
+	/**
+	 * @return the lote
+	 */
+	public String getLote() {
+		return lote;
+	}
+	/**
+	 * @param lote the lote to set
+	 */
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+	/**
+	 * @return the validade
+	 */
+	public Date getValidade() {
+		return validade;
+	}
+	/**
+	 * @param validade the validade to set
+	 */
+	public void setValidade(Date validade) {
+		this.validade = validade;
+	}
+	/**
+	 * @return the proximaDose
+	 */
+	public Integer getProximaDose() {
+		return proximaDose;
+	}
+	/**
+	 * @param proximaDose the proximaDose to set
+	 */
+	public void setProximaDose(Integer proximaDose) {
+		this.proximaDose = proximaDose;
+	}
+	
+	
 }
-

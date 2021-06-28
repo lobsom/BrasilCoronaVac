@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,16 +54,15 @@ public class Cidadao {
 	
 	//@NotNull(message = "Data inválida!")
 	private Date dataNascimento;
-	
+		
 	@OneToMany
-	@JoinColumn(name = "idCidadao")
+	@JoinColumn(name = "idCidadaoVacinado")
 	@JsonIgnore
-	private List<AplicacaoVacina> vacinas;
+	List<Vacinacao> vacinasRecebidas;
 
 	/**
-	 * Construtor não mais utilizado por conta de alguma coisa que ainda não sei... <br>
-	 * Perguntar ao Luís
-	 * */
+	 * Construtor reservado para o Spring Boot
+	 */
 	@Deprecated 
 	public Cidadao() {}
 	
@@ -86,7 +86,6 @@ public class Cidadao {
 	public Cidadao(Long id) {
 		this.id = id;
 	}
-
 
 
 	// Gttrs'n'Sttrs
@@ -172,17 +171,17 @@ public class Cidadao {
 	
 	
 	/**
-	 * @return the vacinas
+	 * @return the vacinasRecebidas
 	 */
-	public List<AplicacaoVacina> getVacinas() {
-		return vacinas;
+	public List<Vacinacao> getVacinasRecebidas() {
+		return vacinasRecebidas;
 	}
 
 	/**
-	 * @param vacinas the vacinas to set
+	 * @param vacinasRecebidas the vacinasRecebidas to set
 	 */
-	public void setVacinas(List<AplicacaoVacina> vacinas) {
-		this.vacinas = vacinas;
+	public void setVacinasRecebidas(List<Vacinacao> vacinasRecebidas) {
+		this.vacinasRecebidas = vacinasRecebidas;
 	}
 
 	/**
@@ -190,7 +189,9 @@ public class Cidadao {
 	 * @return CidadadoResponse 
 	 */
 	public CidadaoResponse resposta() {
-		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinas);
+		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinasRecebidas);
 	}
+	
+	
 	
 }

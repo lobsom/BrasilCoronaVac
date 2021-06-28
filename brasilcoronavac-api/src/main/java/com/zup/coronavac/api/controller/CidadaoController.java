@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.zup.coronavac.api.dto.CidadaoRequest;
 import com.zup.coronavac.api.dto.CidadaoResponse;
 import com.zup.coronavac.domain.model.Cidadao;
-import com.zup.coronavac.domain.service.CadastroCidadaoService;
+import com.zup.coronavac.domain.service.CidadaoService;
 
 /**
  * Recebe as requisições HTTP e envia a resposta.
@@ -29,16 +29,16 @@ import com.zup.coronavac.domain.service.CadastroCidadaoService;
 @RestController
 @RequestMapping("/cidadao")
 public class CidadaoController {
-	private final CadastroCidadaoService cadastroCidadaoService;
+	private final CidadaoService cidadaoService;
 	/**
 	 * Implementação de Injeção de dependência por Construtor
 	 * 
 	 * @param cadastroCidadaoService
-	 * @param cidadaoRepository
+	 * 
 	 */
 	@Autowired
-	CidadaoController(CadastroCidadaoService cadastroCidadaoService) {
-		this.cadastroCidadaoService = cadastroCidadaoService;
+	CidadaoController(CidadaoService cidadaoService) {
+		this.cidadaoService = cidadaoService;
 	}
 
 	/**
@@ -50,12 +50,11 @@ public class CidadaoController {
 	 *                   exceção
 	 */
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	private ResponseEntity<CidadaoResponse> criarCidadao(@Validated @RequestBody CidadaoRequest cidadaoRequest)
 			throws Exception {
 
 		Cidadao novoCidadao = cidadaoRequest.criarNovoCidadao();
-		cadastroCidadaoService.salvar(novoCidadao);
+		cidadaoService.salvar(novoCidadao);
 
 		CidadaoResponse cidadaoRetorno = novoCidadao.resposta();
 		return ResponseEntity.status(HttpStatus.CREATED).body(cidadaoRetorno);
@@ -69,7 +68,7 @@ public class CidadaoController {
 	 */
 	@GetMapping
 	private List<CidadaoResponse> listar() {
-		return cadastroCidadaoService.listarCidadao();
+		return cidadaoService.listarCidadao();
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class CidadaoController {
 	 */
 	@GetMapping("/{parametro}")
 	private List<CidadaoResponse> buscaPorId(@PathVariable Long parametro) throws Exception {
-		List<CidadaoResponse> result = cadastroCidadaoService.listarCidadao(parametro);
+		List<CidadaoResponse> result = cidadaoService.listarCidadao(parametro);
 		if (!result.isEmpty()) {
 			return result;
 		}
@@ -98,9 +97,10 @@ public class CidadaoController {
 	 *                   exceção
 	 */
 	@GetMapping("/email/{email}")
-	private ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) throws Exception {
+	private ResponseEntity<List<Cidadao>> buscaPorEmail(@PathVariable String email) 
+			throws Exception {
 
-		List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaEmail(email);
+		List<Cidadao> cidadaoRetorno = cidadaoService.buscaEmail(email);
 		return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 	}
 
@@ -112,9 +112,10 @@ public class CidadaoController {
 	 *                   exceção
 	 */
 	@GetMapping("/cpf/{cpf}")
-	private ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) throws Exception {
+	private ResponseEntity<List<Cidadao>> buscaPorCpf(@PathVariable String cpf) 
+			throws Exception {
 
-		List<Cidadao> cidadaoRetorno = cadastroCidadaoService.buscaCpf(cpf);
+		List<Cidadao> cidadaoRetorno = cidadaoService.buscaCpf(cpf);
 		return ResponseEntity.status(HttpStatus.OK).body(cidadaoRetorno);
 	}
 

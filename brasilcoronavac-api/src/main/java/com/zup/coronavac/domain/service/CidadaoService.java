@@ -13,7 +13,7 @@ import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.repository.CidadaoRepository;
 
 @Service
-public class CadastroCidadaoService {
+public class CidadaoService {
 	private final CidadaoRepository cidadaoRepository;
 
 	/**
@@ -22,7 +22,7 @@ public class CadastroCidadaoService {
 	 * @param cidadaoRepository
 	 */
 	@Autowired
-	private CadastroCidadaoService(CidadaoRepository cidadaoRepository) {
+	private CidadaoService(CidadaoRepository cidadaoRepository) {
 		this.cidadaoRepository = cidadaoRepository;
 	};
 
@@ -62,7 +62,8 @@ public class CadastroCidadaoService {
 	 * @throws Exception Caso os métodos chamados retornem true, será lançada a
 	 *                   exceção
 	 */
-	public Cidadao salvar(Cidadao cidadao) throws Exception {
+	public Cidadao salvar(Cidadao cidadao) 
+			throws Exception {
 		if (existeEmail(cidadao.getEmail())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já existe.");
 		} else if (existeCPF(cidadao.getCpf())) {
@@ -107,7 +108,7 @@ public class CadastroCidadaoService {
 		return cidadaoRepository
 				.findAll()
 				.stream()
-			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinasRecebidas()))
 			    .collect(Collectors.toList());
 	}
 
@@ -115,7 +116,7 @@ public class CadastroCidadaoService {
 		return cidadaoRepository
 				.findById(parametro)
 				.stream()
-			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinasRecebidas()))
 			    .collect(Collectors.toList());
 	}
 
