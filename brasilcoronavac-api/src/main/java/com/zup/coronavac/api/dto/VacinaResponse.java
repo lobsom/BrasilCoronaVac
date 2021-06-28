@@ -1,29 +1,29 @@
 package com.zup.coronavac.api.dto;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
-import com.zup.coronavac.domain.model.Vacinacao;
-
+/**
+ * 
+ * @author Marcelo Gomes
+ *
+ */
 public class VacinaResponse {
 	private String nomeVacina;
 	private String lote;
 	private Date validade;
+	private Integer proximaDose;
+
 	/**
-	 * @param nomeVacina
-	 * @param lote
-	 * @param validade
+	 * @param nomeVacina String - Nome da vacina/fabricante
+	 * @param lote String - Lote de produção da vacina
+	 * @param validade Date - Data de validade da vacina
+	 * @param proximaDose Integer - Número de dias entre a primeira e segunda dose das vacinas
 	 */
-	public VacinaResponse(String nomeVacina, String lote, Date validade) {
+	public VacinaResponse(String nomeVacina, String lote, Date validade, Integer proximaDose) {
 		this.nomeVacina = nomeVacina;
 		this.lote = lote;
 		this.validade = validade;
+		this.proximaDose = proximaDose;
 	}
 	/**
 	 * @return the nomeVacina
@@ -61,7 +61,18 @@ public class VacinaResponse {
 	public void setValidade(Date validade) {
 		this.validade = validade;
 	}
+	/**
+	 * @return the proximaDose
+	 */
+	public Integer getProximaDose() {
+		return proximaDose;
+	}
+	/**
+	 * @param proximaDose the proximaDose to set
+	 */
+	public void setProximaDose(Integer proximaDose) {
+		this.proximaDose = proximaDose;
+	}
 	
 	
-
 }

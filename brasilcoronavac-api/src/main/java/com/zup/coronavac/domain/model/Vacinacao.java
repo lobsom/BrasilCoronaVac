@@ -13,6 +13,11 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zup.coronavac.api.dto.VacinacaoResponse;
 
+/**
+ * Entidade Vacinacao
+ * @author Marcelo Gomes
+ *
+ */
 @Entity
 public class Vacinacao {
 	@Id
@@ -51,12 +56,15 @@ public class Vacinacao {
 		this.dataVacinacao = dataVacinacao;
 		this.proximaDose = proximaDose;
 	}
-
-	public Vacinacao(Date dataVacinacao, Date proximaDose) {
+	
+	/**
+	 * Construtor utilizado no processo de criação do recurso Vacinacao
+	 * @param dataVacinacao - Dia da vacinação
+	 */
+	public Vacinacao(Date dataVacinacao) {
 		this.dataVacinacao = dataVacinacao;
-		this.proximaDose = proximaDose;
 	}
-
+	
 	/**
 	 * @return the id
 	 */
@@ -127,8 +135,11 @@ public class Vacinacao {
 		this.proximaDose = proximaDose;
 	}
 
-	public VacinacaoResponse resposta() {
-		
+	/**
+	 * Instancia o objeto contendo somente os membros de classe que devem ser exibidos após a criação do recurso Vacinacao no sistema
+	 * @return VacinacaoResponse
+	 */
+	public VacinacaoResponse resposta() {		
 		return new VacinacaoResponse(this.id, this.cidadao, this.vacina, this.dataVacinacao, this.proximaDose);
 	} 
 	

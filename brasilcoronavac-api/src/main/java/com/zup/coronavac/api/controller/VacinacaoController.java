@@ -22,6 +22,11 @@ import com.zup.coronavac.domain.service.CidadaoService;
 import com.zup.coronavac.domain.service.VacinaService;
 import com.zup.coronavac.domain.service.VacinacaoService;
 
+/**
+ * Controller para gerenciar os recursos do tipo Vacinacao
+ * @author Marcelo Gomes
+ *
+ */
 @RestController
 @RequestMapping("/vacinacao")
 public class VacinacaoController {
@@ -29,9 +34,8 @@ public class VacinacaoController {
 	private final VacinaService vacinaService;
 	private final CidadaoService cidadaoService;
 	
-	
-	
 	/**
+	 * Injeção de dependência por construtor
 	 * @param vacinacaoService
 	 * @param vacinaService
 	 * @param cidadaoService
@@ -44,6 +48,14 @@ public class VacinacaoController {
 		this.cidadaoService = cidadaoService;
 	}
 	
+	/**
+	 * Cria o recurso Vacinacao no sistema
+	 * @param vacinacaoRequest - Recebe os dados enviados pelo usuário
+	 * @param cidadaoId - id do recurso Cidadao que vai ser vacinado
+	 * @param vacinaId - id do recurso Vacina que será aplicada
+	 * @return VacinacaoResponse - Dados a serem retornados para o usuário sobre o recurso criado
+	 * @throws Exception Acusa a inexistência dos recursos Cidadao ou Vacina (NOT_FOUND - 404)
+	 */
 	@PostMapping("/{cidadaoId}/{vacinaId}")
 	public ResponseEntity<VacinacaoResponse> vacinarCidadao(@Validated @RequestBody VacinacaoRequest vacinacaoRequest, 
 			@PathVariable ("cidadaoId") Long cidadaoId, 
@@ -61,9 +73,18 @@ public class VacinacaoController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(vacinacaoResponse);
 	}
 	
+	/**
+	 * Lista todos os recursos do tipo Vacinacao criados no sistema
+	 * @return VacinacaoResponse
+	 */
 	@GetMapping
-	public List<Vacinacao> listarVacinasAplicadas() {
-		return vacinacaoService.listarVacinas();
+	public List<VacinacaoResponse> listarVacinasAplicadas() {
+		return vacinacaoService.listarVacinacao();
+	}
+
+	@GetMapping("/{idvacinacao}")
+	public List<VacinacaoResponse> listarVacinasAplicadas(@PathVariable ("idvacinacao") Long idvacinacao) {
+		return vacinacaoService.listarVacinacao(idvacinacao);
 	}
 
 }

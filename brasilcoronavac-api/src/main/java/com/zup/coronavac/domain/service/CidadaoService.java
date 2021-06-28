@@ -62,7 +62,8 @@ public class CidadaoService {
 	 * @throws Exception Caso os métodos chamados retornem true, será lançada a
 	 *                   exceção
 	 */
-	public Cidadao salvar(Cidadao cidadao) throws Exception {
+	public Cidadao salvar(Cidadao cidadao) 
+			throws Exception {
 		if (existeEmail(cidadao.getEmail())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já existe.");
 		} else if (existeCPF(cidadao.getCpf())) {
@@ -107,7 +108,7 @@ public class CidadaoService {
 		return cidadaoRepository
 				.findAll()
 				.stream()
-			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinasRecebidas()))
 			    .collect(Collectors.toList());
 	}
 
@@ -115,7 +116,7 @@ public class CidadaoService {
 		return cidadaoRepository
 				.findById(parametro)
 				.stream()
-			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinas()))
+			    .map(e -> new CidadaoResponse(e.getId(), e.getNome(), e.getEmail(), e.getVacinasRecebidas()))
 			    .collect(Collectors.toList());
 	}
 

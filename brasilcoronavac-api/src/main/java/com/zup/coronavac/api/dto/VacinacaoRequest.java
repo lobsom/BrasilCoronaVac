@@ -2,8 +2,6 @@ package com.zup.coronavac.api.dto;
 
 import java.util.Date;
 
-import com.zup.coronavac.domain.model.Cidadao;
-import com.zup.coronavac.domain.model.Vacina;
 import com.zup.coronavac.domain.model.Vacinacao;
 
 public class VacinacaoRequest {
@@ -21,14 +19,12 @@ public class VacinacaoRequest {
 	}
 	
 	/**
-	 * To-Do Verificar a questão desses dois membros em branco
-	 * @return
+	 * Instancia um objeto do tipo Vacinacao para ser utilizado no processo de criação do recurso
+	 * @return Vacinacao
 	 */
 	public Vacinacao criarVacinacao() {
-		return new Vacinacao(this.dataVacinacao, this.proximaDose);
+		return new Vacinacao(this.dataVacinacao);
 	}
-	
-	
 	
 	/**
 	 * @return the id

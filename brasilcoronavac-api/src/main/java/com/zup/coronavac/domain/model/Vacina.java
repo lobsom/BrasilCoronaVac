@@ -13,13 +13,20 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zup.coronavac.api.dto.VacinaResponse;
+import com.zup.coronavac.api.dto.VacinaResponseAllData;
 
+/**
+ * Entidade Vacina
+ * @author Marcelo Gomes
+ *
+ */
 @Entity
 public class Vacina {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idVacina", updatable = false, nullable = false)
 	private Long id;
+	
 	private String nomeVacina;
 	private String lote;
 	private Date validade;
@@ -137,7 +144,11 @@ public class Vacina {
 	}
 
 	public VacinaResponse resposta() {
-		return new VacinaResponse(this.nomeVacina, this.lote, this.validade);
+		return new VacinaResponse(this.nomeVacina, this.lote, this.validade, this.proximaDose);
+	}
+
+	public VacinaResponseAllData respostaAllData() {
+		return new VacinaResponseAllData(this.id, this.nomeVacina, this.lote, this.validade, this.proximaDose);
 	}
 
 	

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,12 +54,7 @@ public class Cidadao {
 	
 	//@NotNull(message = "Data inválida!")
 	private Date dataNascimento;
-	
-	@OneToMany
-	@JoinColumn(name = "idCidadao")
-	@JsonIgnore
-	private List<AplicacaoVacina> vacinas;
-	
+		
 	@OneToMany
 	@JoinColumn(name = "idCidadaoVacinado")
 	@JsonIgnore
@@ -175,20 +171,6 @@ public class Cidadao {
 	
 	
 	/**
-	 * @return the vacinas
-	 */
-	public List<AplicacaoVacina> getVacinas() {
-		return vacinas;
-	}
-
-	/**
-	 * @param vacinas the vacinas to set
-	 */
-	public void setVacinas(List<AplicacaoVacina> vacinas) {
-		this.vacinas = vacinas;
-	}
-	
-	/**
 	 * @return the vacinasRecebidas
 	 */
 	public List<Vacinacao> getVacinasRecebidas() {
@@ -207,7 +189,9 @@ public class Cidadao {
 	 * @return CidadadoResponse 
 	 */
 	public CidadaoResponse resposta() {
-		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinas);
+		return new CidadaoResponse(this.id, this.nome, this.email, this.vacinasRecebidas);
 	}
+	
+	
 	
 }

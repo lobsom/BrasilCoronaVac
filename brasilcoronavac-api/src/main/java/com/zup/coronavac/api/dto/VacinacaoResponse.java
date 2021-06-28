@@ -2,9 +2,6 @@ package com.zup.coronavac.api.dto;
 
 import java.util.Date;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.zup.coronavac.domain.model.Cidadao;
 import com.zup.coronavac.domain.model.Vacina;
 
@@ -22,7 +19,6 @@ public class VacinacaoResponse {
 	 * @param proximaDose
 	 */
 	public VacinacaoResponse(Long id, Cidadao cidadao, Vacina vacina, Date dataVacinacao, Date proximaDose) {
-		super();
 		this.id = id;
 		this.cidadao = cidadao;
 		this.vacina = vacina;
