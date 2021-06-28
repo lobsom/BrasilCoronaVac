@@ -61,12 +61,12 @@ public class Cidadao {
 	
 	@OneToMany
 	@JoinColumn(name = "idCidadaoVacinado")
+	@JsonIgnore
 	List<Vacinacao> vacinasRecebidas;
 
 	/**
-	 * Construtor não mais utilizado por conta de alguma coisa que ainda não sei... <br>
-	 * Perguntar ao Luís
-	 * */
+	 * Construtor reservado para o Spring Boot
+	 */
 	@Deprecated 
 	public Cidadao() {}
 	

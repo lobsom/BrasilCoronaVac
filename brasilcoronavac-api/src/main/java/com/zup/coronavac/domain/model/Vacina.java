@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zup.coronavac.api.dto.VacinaResponse;
 
 @Entity
@@ -26,6 +27,7 @@ public class Vacina {
 	
 	@OneToMany
 	@JoinColumn(name = "idVacina")
+	@JsonIgnore
 	List<Vacinacao> vacinasAplicadas;
 
 	/**
